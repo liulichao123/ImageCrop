@@ -5,6 +5,7 @@
 ## Build generated
 build/
 DerivedData/
+.DS_Store
 
 ## Various settings
 *.pbxuser
@@ -31,7 +32,7 @@ xcuserdata/
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
-
+xcuserdata
 # Swift Package Manager
 #
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
