@@ -30,8 +30,8 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        guard let original = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let original = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
             picker.dismiss(animated: true, completion: nil)
             return
         }
@@ -44,6 +44,6 @@ extension ViewController: UINavigationControllerDelegate, UIImagePickerControlle
             self.imageView.image = image
         }
         picker.pushViewController(cropVC, animated: true)
-        
     }
+
 }
