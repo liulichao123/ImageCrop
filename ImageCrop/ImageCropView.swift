@@ -77,7 +77,6 @@ class ImageCropView: UIView {
         imageView.contentMode = .scaleAspectFill
         scrollView.addSubview(imageView)
         
-        
         var contentSize = scrollView.frame.size
         if originalImage.size.width > originalImage.size.height {
             let _w = originalImage.size.width/originalImage.size.height*h
@@ -99,6 +98,11 @@ class ImageCropView: UIView {
 
         imageView.center = CGPoint(x: contentSize.width/2, y: contentSize.height/2)
         scrollView.setContentOffset(CGPoint(x: (contentSize.width-scrollView.frame.width)/2, y: (contentSize.height-scrollView.frame.height)/2), animated: false)
+    
+        //当图片宽度小于k高度时，让图片宽度占满屏幕
+        if _rate < 1 && w != 0 {
+            scrollView.zoomScale = self.bounds.width/w
+        }
         
         _maskView = UIView(frame: self.bounds)
         _maskView.backgroundColor = UIColor(white: 0, alpha: 0.2)
