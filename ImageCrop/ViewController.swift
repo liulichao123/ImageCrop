@@ -38,7 +38,7 @@ extension ViewController: UINavigationControllerDelegate, UIImagePickerControlle
         var config = ImageCropConfig()
         config.cropRate = 3/4
         config.borderWidth = 2
-//        config.edge = 16
+        config.edge = 16
         let cropVC = ImageCropVC(image: original, config: config)
         cropVC.success = { [unowned self] image in
             self.imageView.image = image

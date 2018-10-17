@@ -100,7 +100,7 @@ class ImageCropView: UIView {
         scrollView.setContentOffset(CGPoint(x: (contentSize.width-scrollView.frame.width)/2, y: (contentSize.height-scrollView.frame.height)/2), animated: false)
     
         //当图片宽度小于k高度时，让图片宽度占满屏幕
-        if _rate < 1 && w != 0 {
+        if config.cropRate != 1 && _rate < 1 && w != 0 {
             scrollView.zoomScale = self.bounds.width/w
         }
         
