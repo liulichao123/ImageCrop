@@ -14,12 +14,10 @@ class ImageCropVC: UIViewController {
     
     let originalImage: UIImage
     let config: ImageCropConfig
-    var success: ((UIImage) -> Void)?
-    var cancel: (() -> Void)?
+    public var success: ((UIImage) -> Void)?
+    public var cancel: (() -> Void)?
     
     var customView: ImageCropView!
-    var cancelButton: UIButton!
-    var comfirmButton: UIButton!
     
     init(image: UIImage, config: ImageCropConfig = ImageCropConfig()) {
         self.originalImage = image
@@ -41,44 +39,16 @@ class ImageCropVC: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         customView = ImageCropView(image: originalImage, config: config)
         view.addSubview(customView)
-        
-        cancelButton = UIButton()
-        view.addSubview(cancelButton)
-        cancelButton.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            if #available(iOS 11.0, *) {
-                $0.bottom.equalTo(self.view.safeAreaInsets).offset(-20)
-            } else {
-                $0.bottom.equalToSuperview().offset(-20)
-            }
+        customView.cancel = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
         }
-        cancelButton.setTitle("取消", for: .normal)
-        cancelButton.addTarget(self, action: #selector(didCancel), for: .touchUpInside)
-        comfirmButton = UIButton()
-        view.addSubview(comfirmButton)
-        comfirmButton.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-20)
-            if #available(iOS 11.0, *) {
-                $0.bottom.equalTo(self.view.safeAreaInsets).offset(-20)
-            } else {
-                $0.bottom.equalToSuperview().offset(-20)
+        customView.completion = { [weak self] image in
+            if let _img = image {
+                self?.success?(_img)
+                self?.navigationController?.dismiss(animated: true, completion: nil)
+            }else {
+                print("错误")
             }
-        }
-        comfirmButton.setTitle("确认", for: .normal)
-        comfirmButton.addTarget(self, action: #selector(didConfirm), for: .touchUpInside)
-    }
-    
-     @objc func didCancel() {
-        self.cancel?()
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func didConfirm() {
-        if let cropImage = self.customView.getCropImage()  {
-            self.success?(cropImage)
-            self.navigationController?.dismiss(animated: true, completion: nil)
-        } else {
-            print("错误")
         }
     }
 
